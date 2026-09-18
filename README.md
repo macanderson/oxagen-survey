@@ -24,6 +24,14 @@ curl -s "https://<host>/api/export?token=$TOKEN" -o responses.csv     # all answ
 
 A drawn winner is excluded from later draws (for a redraw when a winner does not reply). Every draw is recorded with its time, the entry count, the index and a nonce.
 
+## The share image
+
+`public/og.png` (1200×630) is rendered by `tools/og.py` with the brand kit's ad composer, so it matches every other Oxagen surface. Rebuild after changing the copy in that file:
+
+```sh
+uv run --with fonttools python3 tools/og.py    # needs ../oxagen-brand (or BRAND_KIT=…) and rsvg-convert
+```
+
 ## Change the questions
 
 Edit the `Q` array in `public/index.html`: `radio` (one), `check` (many, optional `max`), or `text`. Answer keys are the `id`s and become CSV columns. Deploy with `vercel deploy --prod`.
