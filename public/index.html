@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How do you run your agents?</title>
+<meta name="description" content="Two minutes, nine questions, one entry in a drawing for $100 in OpenRouter API credits.">
+<meta property="og:title" content="How do you run your agents? A two-minute survey">
+<meta property="og:description" content="Nine questions about how your team runs AI agents. Every completed survey is one entry in a drawing for $100 in OpenRouter API credits.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+:root{
+  --ink:#10100F; --panel:#181715; --hl:#201F1C; --border:#292722; --rule:#34322D;
+  --fg:#F2EEE5; --body:#DDD8CD; --muted:#9B958A; --dim:#6E6A62;
+  --gold:#D6962C; --gold-bright:#F1C364; --on-gold:#10100F; --accent-text:#D6962C;
+  --ok:#57A97C; --bad:#C66A4A;
+  --font:"Aeonik","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --display:"Space Grotesk","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root{
+  --ink:#F2EEE5; --panel:#F8F5EE; --hl:#EFEAE0; --border:#D8CDBD; --rule:#C9BFAE;
+  --fg:#10100F; --body:#2A2823; --muted:#6B665C; --dim:#8C877C; --accent-text:#8B5E1A;
+  --ok:#2F7D52; --bad:#9B4526; color-scheme:light;
+}}
+*{box-sizing:border-box}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--ink);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto;padding:28px 20px 64px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:28px}
+.mark{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.02em}
+.mark b{color:var(--gold)}
+.tag{font-family:var(--mono);font-size:12px;color:var(--dim);border:1px solid var(--border);border-radius:5px;padding:2px 7px}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);font-weight:600}
+h1{font-family:var(--display);font-size:clamp(28px,6vw,38px);letter-spacing:-.02em;line-height:1.1;margin:8px 0 12px;text-wrap:balance}
+.lead{color:var(--body);font-size:17px;margin:0 0 8px;max-width:60ch}
+.prize{display:flex;gap:12px;align-items:flex-start;background:var(--panel);border:3px double var(--rule);border-radius:12px;padding:14px 16px;margin:20px 0 28px}
+.prize .amt{font-family:var(--display);font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1;white-space:nowrap}
+.prize p{margin:0;color:var(--body);font-size:14.5px}
+.prize a{color:var(--accent-text)}
+.progress{position:sticky;top:env(safe-area-inset-top,0px);z-index:3;background:var(--ink);padding:8px 0 12px;margin-bottom:6px}
+.bar{height:6px;background:var(--hl);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .25s}
+.progress span{font-family:var(--mono);font-size:12px;color:var(--muted)}
+fieldset{border:0;padding:0;margin:0 0 26px}
+legend{font-family:var(--display);font-size:18px;font-weight:600;letter-spacing:-.01em;line-height:1.3;margin-bottom:4px;padding:0}
+legend .n{font-family:var(--mono);font-size:12px;color:var(--dim);margin-right:8px;font-weight:400}
+.hint{font-size:14px;color:var(--muted);margin:0 0 10px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opts.row{flex-direction:row;flex-wrap:wrap}
+.opt{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:15px;color:var(--body);min-width:0}
+.opt:hover{background:var(--hl)}
+.opt:has(input:checked){border-color:var(--rule);background:var(--hl);color:var(--fg);box-shadow:inset 0 0 0 1px var(--rule)}
+.opt input{margin:0;accent-color:var(--gold);flex:none;width:16px;height:16px}
+.opt:has(input:focus-visible){outline:2px solid var(--accent-text);outline-offset:2px}
+textarea,input[type=email],input[type=text]{width:100%;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:11px 12px;color:var(--fg);font:inherit;font-size:15px}
+textarea{min-height:88px;resize:vertical}
+input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent-text);outline-offset:2px}
+.err{color:var(--bad);font-size:14px;margin:6px 0 0;display:none}
+fieldset.invalid .err{display:block}
+fieldset.invalid legend{color:var(--bad)}
+.raffle{background:var(--panel);border:1px dashed var(--rule);border-radius:12px;padding:18px 16px;margin:8px 0 22px}
+.raffle h2{font-family:var(--display);font-size:20px;letter-spacing:-.02em;margin:0 0 4px}
+.raffle p{margin:0 0 12px;color:var(--body);font-size:14.5px}
+label.plain{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;color:var(--body);margin-top:10px;cursor:pointer}
+label.plain input{margin-top:4px;accent-color:var(--gold)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--gold);background:var(--gold);color:var(--on-gold);font-weight:600;font-size:16px;border-radius:10px;padding:13px 22px;cursor:pointer;width:100%;font-family:inherit}
+.btn:hover{background:var(--gold-bright);border-color:var(--gold-bright)}
+.btn:disabled{opacity:.6;cursor:default}
+.btn:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+.fine{font-size:12.5px;color:var(--dim);margin-top:12px;text-align:center}
+.fine a{color:var(--muted)}
+.done{display:none;background:var(--panel);border:3px double var(--rule);border-radius:12px;padding:24px 20px}
+.done h2{font-family:var(--display);font-size:24px;letter-spacing:-.02em;margin:0 0 8px}
+.done p{margin:0 0 10px;color:var(--body)}
+.status{margin-top:12px;font-size:14.5px;color:var(--bad);display:none}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--border);color:var(--dim);font-size:13px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer a{color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><div class="mark">oxagen</div><span class="tag">survey · 2 min</span></header>
+
+  <div class="eyebrow">Mission Control for your autonomous agents</div>
+  <h1>How do you run your agents today?</h1>
+  <p class="lead">Nine questions about the agents your team builds and what you can and cannot see about them. Your answers shape what Oxagen builds next.</p>
+
+  <div class="prize"><div class="amt">$100</div><p><b>Every completed survey is one entry</b> in a drawing for a $100 OpenRouter API credit package. One entry per person. Drawing on 2 October 2026; the winner is notified by email. <a href="/terms">Rules</a>.</p></div>
+
+  <form id="f" novalidate>
+    <div class="progress"><div class="bar"><i id="pb"></i></div><span id="pt">0 of 9 answered</span></div>
+    <div id="qs"></div>
+
+    <div class="raffle">
+      <h2>Your entry</h2>
+      <p>Your email is used to enter the drawing and to tell you if you won. It is not shared, and it is not used for anything else unless you tick the box.</p>
+      <label for="email" class="hint" style="display:block">Email</label>
+      <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="you@company.com" required>
+      <div class="err" id="email-err">Enter a valid email so we can reach you if you win.</div>
+      <label class="plain"><input type="checkbox" id="contact_ok" name="contact_ok"> Oxagen may email me once about the results of this survey and early access.</label>
+      <label class="plain"><input type="checkbox" id="agree" name="agree" required> I am 18 or older and accept the <a href="/terms" target="_blank" rel="noopener">drawing rules</a>.</label>
+      <div class="err" id="agree-err">Tick the box to enter the drawing.</div>
+    </div>
+
+    <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+    <button class="btn" id="submit" type="submit">Submit and enter the drawing</button>
+    <div class="status" id="status" role="alert"></div>
+    <p class="fine">No purchase necessary. Void where prohibited. <a href="/terms">Official rules</a>.</p>
+  </form>
+
+  <div class="done" id="done" role="status">
+    <h2 id="done-h">You are in the drawing.</h2>
+    <p id="done-p">Thank you. Your answers are saved and your email is entered once. The drawing is on 2 October 2026; if you win, you hear from us that day.</p>
+    <p class="fine" style="text-align:left;margin:0">Know someone else who runs agents? Send them this link.</p>
+  </div>
+
+  <footer><span>Oxagen · the control plane for your agent workforce</span><a href="https://oxagen.sh" rel="noopener">oxagen.sh</a></footer>
+</div>
+
+<script>
+(() => {
+"use strict";
+const Q = [
+  { id: "role", t: "What is your role?", type: "radio", opts: ["Engineering lead or manager", "Platform or infrastructure engineer", "Software engineer", "Security", "Finance or FinOps", "CTO, CIO or VP Engineering", "Founder", "Product", "Other"] },
+  { id: "company_size", t: "How many people work at your company?", type: "radio", row: true, opts: ["1 to 10", "11 to 50", "51 to 200", "201 to 1,000", "1,001 to 5,000", "5,000+"] },
+  { id: "agent_count", t: "How many AI agents run in your organization today?", h: "Count anything that acts on its own: coding agents, support bots, pipelines with an LLM in the loop.", type: "radio", row: true, opts: ["None yet", "1 to 5", "6 to 20", "21 to 100", "More than 100", "I do not know"] },
+  { id: "tools", t: "What do you build or run them with?", h: "Pick every one that applies.", type: "check", opts: ["Claude Code", "Codex", "Cursor or another IDE agent", "A framework (LangGraph, CrewAI, Mastra, etc.)", "A workflow tool (n8n, Zapier, Make)", "Our own code", "A vendor's built-in agent", "Something else"] },
+  { id: "attribution", t: "Can you say today which agent spent what, and on whose behalf?", type: "radio", opts: ["Yes, per agent and per person", "Roughly, per team or per API key", "Only the total on the invoice", "We do not track it"] },
+  { id: "worries", t: "What worries you most about agents acting in production?", h: "Pick up to three.", type: "check", max: 3, opts: ["Credentials the agent holds", "Spend nobody can attribute", "Changes shipped without a review", "No record of what the agent did and why", "Compliance or audit questions we cannot answer", "An agent acting outside its remit", "Nothing yet, it is early"] },
+  { id: "approvals", t: "How does an agent get approval for a risky action today?", h: "Payments, merges, deletes, sending mail: anything you would not let a new hire do alone.", type: "radio", opts: ["A person watches and stops it by hand", "It asks in chat and someone replies", "We wrote our own approval step", "It cannot take those actions at all", "It just does them"] },
+  { id: "pay", t: "What would you pay per month for one place that answers those questions for every agent?", h: "An identity per agent, a mandate a named team wrote, and a record of every governed action.", type: "radio", row: true, opts: ["Nothing", "Under $100", "$100 to $499", "$500 to $1,999", "$2,000 or more", "Depends on the agent count"] },
+  { id: "wish", t: "What is one thing you wish you could see about your agents right now?", h: "A sentence is plenty.", type: "text" },
+];
+const qs = document.getElementById("qs");
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+qs.innerHTML = Q.map((q, i) => `<fieldset id="fs-${q.id}" data-id="${q.id}">
+  <legend><span class="n">${String(i + 1).padStart(2, "0")}</span>${esc(q.t)}</legend>
+  ${q.h ? `<p class="hint">${esc(q.h)}</p>` : ""}
+  ${q.type === "text" ? `<textarea name="${q.id}" maxlength="1000" placeholder="Type here"></textarea>` :
+    `<div class="opts ${q.row ? "row" : ""}">${q.opts.map((o) => `<label class="opt"><input type="${q.type === "check" ? "checkbox" : "radio"}" name="${q.id}" value="${esc(o)}">${esc(o)}</label>`).join("")}</div>`}
+  <div class="err">${q.type === "check" ? "Pick at least one." : q.type === "text" ? "A few words is enough." : "Pick one."}</div>
+</fieldset>`).join("");
+
+const f = document.getElementById("f");
+const answersOf = () => {
+  const a = {};
+  for (const q of Q) {
+    if (q.type === "text") a[q.id] = f.elements[q.id].value.trim();
+    else if (q.type === "check") a[q.id] = [...f.querySelectorAll(`input[name="${q.id}"]:checked`)].map((x) => x.value);
+    else a[q.id] = (f.querySelector(`input[name="${q.id}"]:checked`) || {}).value || "";
+  }
+  return a;
+};
+const answered = (q, a) => q.type === "check" ? a[q.id].length > 0 : !!a[q.id];
+function progress() {
+  const a = answersOf(); const n = Q.filter((q) => answered(q, a)).length;
+  document.getElementById("pb").style.width = (100 * n / Q.length) + "%";
+  document.getElementById("pt").textContent = `${n} of ${Q.length} answered`;
+}
+f.addEventListener("input", (e) => {
+  progress();
+  const fs = e.target.closest("fieldset"); if (fs) fs.classList.remove("invalid");
+  const q = Q.find((x) => x.id === fs?.dataset.id);
+  if (q?.max && fs) { const c = fs.querySelectorAll("input:checked"); fs.querySelectorAll("input:not(:checked)").forEach((x) => x.disabled = c.length >= q.max); }
+  if (e.target.id === "email") document.getElementById("email-err").style.display = "none";
+  if (e.target.id === "agree") document.getElementById("agree-err").style.display = "none";
+});
+let busy = false;
+f.addEventListener("submit", async (e) => {
+  e.preventDefault(); if (busy) return;
+  const a = answersOf(); let firstBad = null;
+  for (const q of Q) { const fs = document.getElementById("fs-" + q.id); const ok = answered(q, a); fs.classList.toggle("invalid", !ok); if (!ok && !firstBad) firstBad = fs; }
+  const email = f.elements.email.value.trim();
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+  document.getElementById("email-err").style.display = emailOk ? "none" : "block";
+  if (!emailOk && !firstBad) firstBad = document.getElementById("email");
+  const agree = f.elements.agree.checked;
+  document.getElementById("agree-err").style.display = agree ? "none" : "block";
+  if (!agree && !firstBad) firstBad = document.getElementById("agree");
+  if (firstBad) { firstBad.scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+
+  const btn = document.getElementById("submit"), st = document.getElementById("status");
+  busy = true; btn.disabled = true; btn.textContent = "Saving…"; st.style.display = "none";
+  try {
+    const r = await fetch("/api/submit", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ answers: a, email, contact_ok: f.elements.contact_ok.checked, website: f.elements.website.value }) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok || !j.ok) throw new Error(j.error || "Something went wrong. Try again.");
+    f.style.display = "none";
+    const d = document.getElementById("done"); d.style.display = "block";
+    if (!j.entered) { document.getElementById("done-h").textContent = "Thank you. You were already entered."; document.getElementById("done-p").textContent = "Your new answers are saved. The drawing counts each email once, so your earlier entry stands."; }
+    d.scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch (err) {
+    st.textContent = err.message; st.style.display = "block";
+    busy = false; btn.disabled = false; btn.textContent = "Submit and enter the drawing";
+  }
+});
+progress();
+})();
+</script>
+</body>
+</html>

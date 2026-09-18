@@ -1,0 +1,15 @@
+{
+  "name": "oxagen-survey",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A two-minute survey on how teams run AI agents, with a drawing for $100 in OpenRouter API credits.",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel deploy --prod"
+  },
+  "dependencies": {
+    "@vercel/blob": "2.8.0"
+  }
+}
